@@ -1,0 +1,27 @@
+<odoo>
+			 <record model="ir.ui.view" id="view_amtiss_product_exchange_form_inherited332">
+                <field name="name">amtiss.product.exchange.form</field>
+                <field name="model">amtiss.product.exchange</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="amtiss_material_req.view_amtiss_product_exchange_form"/>
+                <field name="arch" type="xml">
+                
+                    <xpath expr="//group[1]/group[1]/field[@name='amtiss_material_request_line_id']" position="attributes">
+	            		<attribute name="string">MR ID</attribute>
+	            	</xpath>
+                	
+                	<xpath expr="//group[2]/group[2]/field[@name='selected_product_id']" position="replace">
+	            		
+	            	</xpath>
+	            	
+	            	<xpath expr="//group[2]/group[2]" position="after">
+		            	<group>
+		            		<field name="selected_product_ids">
+		            			
+		            		</field>
+		            	</group>	            		
+	            	</xpath>
+                	
+                </field>
+            </record>
+</odoo>

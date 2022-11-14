@@ -1,0 +1,50 @@
+<odoo>	        
+			 <record model="ir.ui.view" id="amtiss_material_request_form_inherited321">
+                <field name="name">amtiss.material.request.form</field>
+                <field name="model">amtiss.material.request</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="amtiss_material_req.view_amtiss_material_req_amtiss_material_request_form"/>
+                <field name="arch" type="xml">   
+                                                
+				<xpath expr="//sheet/group/group/field[@name='picking_location_id']" position="attributes">
+	            	<attribute name="string">Picking Location</attribute>
+	            </xpath>                        
+                                         
+	    		<xpath expr="//notebook/page/field/tree/field[@name='quantity']" position="attributes">
+	            	<attribute name="string">Request</attribute>
+	            </xpath>
+	            
+	            <xpath expr="//notebook/page/field/tree/field[@name='standard_price']" position="attributes">
+	            	<attribute name="string">Unit Price</attribute>
+	            </xpath>
+
+	            <xpath expr="//notebook/page/field/tree/field[@name='actual_price']" position="replace">
+	            	<field name="picking_location_id" string="Picking Location"/>
+	            </xpath>
+	            
+	            <xpath expr="//notebook/page/field/tree/field[@name='stock_on_picking_location_id']" position="attributes">
+	            	<attribute name="string">QoH</attribute>
+	            </xpath>
+	            
+	            <xpath expr="//notebook/page/field/tree/field[@name='status']" position="attributes">
+	            	<attribute name="string">Action</attribute>
+	            </xpath>
+	            
+	            <xpath expr="//notebook/page/field/tree/field[@name='source_picking_location_id']" position="attributes">
+	            	<attribute name="string">Transfer from</attribute>
+	            </xpath>
+	            
+	            <xpath expr="//notebook/page/field/tree/field[@name='source_picking_location_id']" position="after">
+	            	<field name="status_request_line" string="Status"/>
+	            </xpath>
+	            
+	            <xpath expr="//header/button[@name='button_process']" position="after">
+	            		<button name="button_set_actiont" string="Set Action" type="object" class="oe_highlight"/>
+	            </xpath>
+	            
+                </field>                                        	   			
+            </record>	
+</odoo>
+
+       
+	

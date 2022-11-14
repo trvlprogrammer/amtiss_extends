@@ -1,0 +1,37 @@
+<odoo>
+	<data>
+	
+		<record id="view_amtiss_action_set_form" model="ir.ui.view">
+            <field name="name">view_amtiss_action_set_form</field>
+            <field name="model">amtiss.action.set.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Amtis Action Set" duplicate="0">
+                    <group>                        
+                         <field name="amtiss_material_request_id" invisible="1"/> 
+                         <field name="action"/>   
+                         <field name="source_picking_location_id" attrs="{'invisible':[('action', '!=', 'Transfer')]}"/>
+                         <field name="request_line_ids" options="{'no_create': True, 'no_create_edit' : True}">
+                         	<tree>
+                         		<field name="name"/>
+                         	</tree>
+                         </field>                                                
+                    </group>
+                    <footer>
+                        <button string="Set Action" name="set_action" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_amtiss_set_action" model="ir.actions.act_window">
+            <field name="name">Set Action</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">amtiss.action.set.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_amtiss_action_set_form" />
+            <field name="target">new</field>
+        </record>
+		
+	</data>
+</odoo>

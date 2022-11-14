@@ -1,0 +1,56 @@
+<odoo>	        
+			<record model="ir.ui.view" id="material_request_line_tree_inherited321">
+                <field name="name">amtiss.material.request.line.tree</field>
+                <field name="model">amtiss.material.request.line</field>
+                <field name="type">tree</field>
+                <field name="inherit_id" ref="amtiss_material_req.view_amtiss_material_req_amtiss_material_request_line_tree"/>
+                <field name="arch" type="xml">
+                	
+                	<field name="quantity" position="replace">                	
+                	</field>
+                	
+                	<xpath expr="//field[@name='stock_on_picking_location_id']" position="replace">	            	
+	            	</xpath>
+	            	
+                	<field name="uom_id" position="after">
+                		<field name="quantity" string="Request"/>
+                		<field name="stock_on_picking_location_id" string="QoH"/>
+                	</field>
+                	
+		    		<xpath expr="//field[@name='created_on']" position="attributes">
+		            	<attribute name="optional">hide</attribute>
+		            </xpath>
+		            
+		            <xpath expr="//field[@name='user_id']" position="attributes">
+		            	<attribute name="optional">hide</attribute>
+		            </xpath>
+
+                	<xpath expr="//field[@name='standard_price']" position="attributes">
+	            		<attribute name="string">Unit Price</attribute>
+	            	</xpath>
+	            	
+	            	<xpath expr="//field[@name='actual_price']" position="replace">	            		
+	            	</xpath>
+	            	
+	            	<xpath expr="//field[@name='quantities_at_locations_mapped']" position="attributes">
+		            	<attribute name="invisible">1</attribute>
+		            </xpath>
+                	
+                	<xpath expr="//field[@name='status']" position="attributes">
+	            		<attribute name="string">Action</attribute>
+	            	</xpath>
+	            	
+	            	<xpath expr="//field[@name='status']" position="after">
+	            		<field name="source_picking_location_id" string="Transfer from"/>
+	            		<field name="status_request_line" string="Status"/>
+	            	</xpath>
+	            	
+	            	
+                	
+                	
+                </field>
+            </record>
+</odoo>
+
+       
+	
