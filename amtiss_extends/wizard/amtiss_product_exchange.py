@@ -28,8 +28,15 @@ class AmtissProductExchangeInherited(models.TransientModel):
                         'selected_product_ids': [('id', 'in', current_product_variant_ids.ids)]
                     }
                 }
+                
+                
+    def action_replace_material_request_line(self):
+        if len(self.selected_product_ids) > 1:
+            raise UserError("You only can choose one product variant")  
+        elif len(self.selected_product_ids) == 0:
+            raise UserError("You need to choose one product variant")
+        
+        self.selected_product_id = self.selected_product_ids[0]
+        
+        return super(AmtissProductExchangeInherited,self).action_replace_material_request_line()
     
-# class productProductInherit(models.Model):
-#     _inherit = "product.product"
-#
-#     amtiss_product_exchange_id = fields.Many2one("amtiss.product.exchange", string="amtiss_product_exchange_id")

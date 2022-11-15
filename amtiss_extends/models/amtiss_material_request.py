@@ -4,12 +4,12 @@ from odoo import models, fields, api, _
 class AmtissMaterialRequestInherited331(models.Model):
     _inherit = "amtiss.material.request"
                         
-    def write(self, vals):
-        res = super(AmtissMaterialRequestInherited331,self).write(vals)            
-        # change picking_id in request line based on material request picking id
+    
+    @api.onchange("picking_location_id")
+    def _compute_picking_location_id(self):
+        self.ensure_one()
         for line in self.amtiss_material_request_line_ids:
-            line.write({"picking_location_id" : vals.get("picking_location_id")})
-        return res
+            line.write({"picking_location_id" : self.picking_location_id})
     
     
     def button_set_actiont(self):
@@ -25,3 +25,62 @@ class AmtissMaterialRequestInherited331(models.Model):
                 'type': 'ir.actions.act_window',
                 'target': 'new',
               }
+        
+    
+    def button_process(self):
+        if not self.amtiss_material_request_line_ids:
+            raise UserError(_("Please add the Material Request Lines (Resources) first, then you can process."))
+        
+        for amtiss_material_request_line_id in self.amtiss_material_request_line_ids:
+
+            # Creation of Purchase Request
+            if amtiss_material_request_line_id.status == 'Purchase':
+                self.env['purchase.request'].create({
+                    'requested_by': self.env.user.id,
+                    'line_ids':[(0, 0, {
+                        'product_id': amtiss_material_request_line_id.name.id,
+                        'product_qty': amtiss_material_request_line_id.quantity,
+                    })],
+                })
+
+            # Creation of Picking, Delivery Orders
+            elif amtiss_material_request_line_id.status == 'Picking':
+                # remove the checking if stock = 0
+                # if amtiss_material_request_line_id.stock_on_picking_location_id == 0:
+                #     raise UserError(_("Since for the product %s, the Quantity available at Picking Location is 0. You can't select Picking status." % (amtiss_material_request_line_id.name.display_name)))
+                
+                if amtiss_material_request_line_id.picking_location_id.warehouse_id.out_type_id.default_location_dest_id:
+                    location_dest_id = amtiss_material_request_line_id.picking_location_id.warehouse_id.out_type_id.default_location_dest_id.id
+                else:
+                    location_dest_id, supplierloc = self.env['stock.warehouse']._get_partner_locations()
+
+                stock_picking_id = self.env['stock.picking'].create({
+                    'picking_type_id':amtiss_material_request_line_id.picking_location_id.warehouse_id.out_type_id.id,
+                    'location_id': amtiss_material_request_line_id.picking_location_id.id,
+                    'location_dest_id': location_dest_id.id,
+                })
+                stock_picking_id.move_ids_without_package = [(0, 0, {
+                    'name': stock_picking_id.name,
+                    'product_id': amtiss_material_request_line_id.name.id,
+                    'product_uom': amtiss_material_request_line_id.uom_id.id,
+                    'product_uom_qty': amtiss_material_request_line_id.quantity,
+                    'location_id': stock_picking_id.location_id.id,
+                    'location_dest_id': stock_picking_id.location_dest_id.id
+                })]
+
+            # Creation of Picking, Internal Transfer
+            elif amtiss_material_request_line_id.status == 'Transfer':
+                stock_picking_id = self.env['stock.picking'].create({
+                    'picking_type_id':amtiss_material_request_line_id.picking_location_id.warehouse_id.int_type_id.id,
+                    'location_id': amtiss_material_request_line_id.source_picking_location_id.id,
+                    'location_dest_id': amtiss_material_request_line_id.picking_location_id.id,
+                })
+                stock_picking_id.move_ids_without_package = [(0, 0, {
+                    'name': stock_picking_id.name,
+                    'product_id': amtiss_material_request_line_id.name.id,
+                    'product_uom': amtiss_material_request_line_id.uom_id.id,
+                    'product_uom_qty': amtiss_material_request_line_id.quantity,
+                    'location_id': stock_picking_id.location_id.id,
+                    'location_dest_id': stock_picking_id.location_dest_id.id
+                })]
+        return {}

@@ -10,14 +10,18 @@
 	            		<attribute name="string">MR ID</attribute>
 	            	</xpath>
                 	
-                	<xpath expr="//group[2]/group[2]/field[@name='selected_product_id']" position="replace">
-	            		
+                	<xpath expr="//group[2]/group[2]/field[@name='selected_product_id']" position="attributes">
+	            		<attribute name="invisible">True</attribute>	            	
 	            	</xpath>
 	            	
 	            	<xpath expr="//group[2]/group[2]" position="after">
 		            	<group>
-		            		<field name="selected_product_ids">
-		            			
+		            		<field name="selected_product_ids" string="Select Product (Variant)" options="{'no_create': True, 'no_create_edit':True, 'no_quick_create' :True, 'no_open' : True}">
+		            			<tree editable="bottom" >
+		            				<field name="name" string="Resource" readonly="True" options="{'no_open' : True}"/>
+		            				<field name="lst_price" string="Unit Price" readonly="True" options="{'no_open' : True}"/>
+		            				<field name="uom_id" string="UoM" readonly="True" options="{'no_open' : True}"/>	            				
+		            			</tree>
 		            		</field>
 		            	</group>	            		
 	            	</xpath>
