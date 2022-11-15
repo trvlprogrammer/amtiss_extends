@@ -1,0 +1,17 @@
+<odoo>
+
+
+			<record model="ir.ui.view" id="stock_picking_inherited32_tree_view">
+                <field name="name">stock.picking.tree</field>	
+                <field name="model">stock.picking</field>
+                <field name="type">tree</field>
+                <field name="inherit_id" ref="stock.vpicktree"/>
+                <field name="arch" type="xml">
+                    <field name="origin" position="after">
+                    	<field name="amtiss_material_request_id"/>
+                    	<field name="asset_id"/>
+                    </field>
+                </field>
+            </record>
+
+</odoo>

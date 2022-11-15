@@ -9,7 +9,7 @@
                     <group>                        
                          <field name="amtiss_material_request_id" invisible="1"/> 
                          <field name="action"/>   
-                         <field name="source_picking_location_id" attrs="{'invisible':[('action', '!=', 'Transfer')]}"/>
+                         <field name="source_picking_location_id" attrs="{'invisible':[('action', '!=', 'Transfer')],'required':[('action', '=', 'Transfer')] }"/>
                          <field name="request_line_ids" options="{'no_create': True, 'no_create_edit':True, 'no_quick_create' :True, 'no_open' : True}">
                          	<tree editable="bottom">
                          		<field name="name" readonly="True" options="{'no_open' : True}"/>

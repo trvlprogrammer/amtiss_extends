@@ -1,0 +1,28 @@
+<odoo>
+	<data>
+	
+		<record id="view_amtiss_process_confirmation_form" model="ir.ui.view">
+            <field name="name">amtiss.process.confirmation.form</field>
+            <field name="model">amtiss.process.confirmation</field>
+            <field name="arch" type="xml">
+                <form string="Amtis Action Set" duplicate="0">
+                    <h3>Are you sure to process all material requests?</h3>
+                    <footer>
+                        <button string="Process" name="button_process" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_amtiss_process_confirmation" model="ir.actions.act_window">
+            <field name="name">Process Confirmation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">amtiss.process.confirmation</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_amtiss_process_confirmation_form" />
+            <field name="target">new</field>
+        </record>
+		
+	</data>
+</odoo>

@@ -9,6 +9,12 @@
 				<xpath expr="//sheet/group/group/field[@name='picking_location_id']" position="attributes">
 	            	<attribute name="string">Picking Location</attribute>
 	            </xpath>                        
+	            
+	            
+                
+   				<xpath expr="//notebook/page/field[@name='amtiss_material_request_line_ids']"  position="attributes">
+	            	<attribute name="attrs">{'readonly':[('state', 'not in', ['requested','Requested'])]}</attribute>
+	            </xpath>                        
                                          
 	    		<xpath expr="//notebook/page/field/tree/field[@name='quantity']" position="attributes">
 	            	<attribute name="string">Request</attribute>
@@ -39,7 +45,7 @@
 	            </xpath>
 	            
 	            <xpath expr="//header/button[@name='button_process']" position="after">
-	            		<button name="button_set_actiont" string="Set Action" type="object" class="oe_highlight"/>
+	            		<button name="button_set_actiont" string="Set Action" type="object" class="oe_highlight" attrs="{'invisible':[('state', 'not in', ['requested','Requested'])]}"/>
 	            </xpath>
 	            
                 </field>                                        	   			
