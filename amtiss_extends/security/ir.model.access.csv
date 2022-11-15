@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 amtiss_action_set_wizard,amtiss.action.set.wizard,model_amtiss_action_set_wizard,base.group_user,1,1,1,1
+amtiss_product_exchange_detail,amtiss.product.exchange.detail,model_amtiss_product_exchange_detail,base.group_user,1,1,1,1
