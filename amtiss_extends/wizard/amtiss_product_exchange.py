@@ -34,15 +34,6 @@ class AmtissProductExchangeDetail(models.TransientModel):
         string='Qty At Other Warehouses',
         compute='_compute_quantities_at_locations_mapped',
     )
-    stock_quant_ids = fields.Many2many(
-        string='Quantity-Warehouses',
-        comodel_name='stock.quant',
-        relation='material_request_line_stock_quant_rel',
-        column1='material_request_line_id',
-        column2='stock_quant_id',
-        compute="_compute_stock_quant_ids"
-    )
-    
     
     @api.onchange('product_exchange_id','product_exchange_id.current_product_id', 'name')
     def _onchange_current_product_ids(self):
@@ -85,23 +76,19 @@ class AmtissProductExchangeDetail(models.TransientModel):
                 location_id= record.picking_location_id
             )
     
-    @api.depends("name")
-    def _compute_stock_quant_ids(self):
-        for record in self:
-            self.stock_quant_ids = [(4, location_id.id) for location_id in self.env["stock.quant"].search([("product_id","=",self.name.id)])]
-    
             
-    @api.depends('stock_quant_ids')
-    def _compute_quantities_at_locations_mapped(self):
+    @api.depends('name')
+    def _compute_quantities_at_locations_mapped(self):            
         for record in self:
             quantities_at_locations_mapped = "<ul style='list-style-type: none;overflow: hidden;'>"
-            for stock_quant_id in record.stock_quant_ids:
-                if stock_quant_id.inventory_quantity_auto_apply:
-                    quantities_at_locations_mapped += \
-                        "<li style='border: 1px solid #eee;background-color: #eee;float: left;padding: 2px 5px;margin: 3px;border-radius: 10px;'>" + \
-                            str(stock_quant_id.inventory_quantity_auto_apply) + " @ " + \
-                            str(stock_quant_id.location_id.display_name) + \
-                        "</li>"
+            for stock_quant_id in self.env["stock.quant"].search([("product_id","=",record.name.id)]):
+                if stock_quant_id.quantity > 0 and not stock_quant_id.location_id.scrap_location:
+                    if stock_quant_id.inventory_quantity_auto_apply:
+                        quantities_at_locations_mapped += \
+                            "<li style='border: 1px solid #eee;background-color: #eee;float: left;padding: 2px 5px;margin: 3px;border-radius: 10px;'>" + \
+                                str(stock_quant_id.inventory_quantity_auto_apply) + " @ " + \
+                                str(stock_quant_id.location_id.display_name) + \
+                            "</li>"
             quantities_at_locations_mapped += '</ul>'
             record.quantities_at_locations_mapped = quantities_at_locations_mapped
     
