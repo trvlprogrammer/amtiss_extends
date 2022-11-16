@@ -13,5 +13,27 @@
                     </field>
                 </field>
             </record>
+            
+            
+            		 <record model="ir.ui.view" id="stock_picking_inherited32_form_view">
+                <field name="name">stock.picking.form</field>
+                <field name="model">stock.picking</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="stock.view_picking_form"/>
+                <field name="arch" type="xml">
+                            
+	    		<xpath expr="//field[@name='origin']" position="after">
+	            	<field name="amtiss_material_request_id"/>
+	            	<field name="asset_id"/>
+	            </xpath>
+	            
+	                    
+    		<xpath expr="//notebook/page[@name='operations']/field/tree/field[@name='product_uom_qty']" position="after">
+            	<field name="qty_issued"/>
+            </xpath>
+	
+	
+                </field>
+            </record>
 
 </odoo>
