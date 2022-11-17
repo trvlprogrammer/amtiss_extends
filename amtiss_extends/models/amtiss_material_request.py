@@ -13,17 +13,15 @@ class AmtissMaterialRequestInherited331(models.Model):
     
     
     def button_set_actiont(self):
-        self.ensure_one()
-        wizard = self.env["amtiss.action.set.wizard"].create({"amtiss_material_request_id" : self.id})
-        
+        self.ensure_one()       
         
         return {
                 'view_mode': 'form',
-                'res_id': wizard.id,
                 'res_model': 'amtiss.action.set.wizard',
                 'view_type': 'form',
                 'type': 'ir.actions.act_window',
                 'target': 'new',
+                'context': {'default_amtiss_material_request_id': self.id}
               }
         
     

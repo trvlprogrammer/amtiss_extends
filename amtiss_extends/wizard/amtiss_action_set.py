@@ -28,7 +28,7 @@ class AmtissActionSet(models.TransientModel):
     
     
     
-    @api.onchange('current_product_id')
+    @api.onchange('amtiss_material_request_id','request_line_ids','action')
     def _onchange_current_product_ids(self):
         for rec in self:
             if rec.amtiss_material_request_id:
