@@ -59,6 +59,8 @@ class AmtissMaterialRequestInherited331(models.Model):
                             'product_id': amtiss_material_request_line_id.name.id,
                             'product_qty': amtiss_material_request_line_id.quantity,
                         })],
+                        'amtiss_material_request_id' : self.id,
+                        'asset_id' : asset_id
                     })
         
                 # Creation of Picking, Delivery Orders
