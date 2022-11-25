@@ -8,16 +8,28 @@
                                                 
 				<xpath expr="//sheet/group/group/field[@name='picking_location_id']" position="attributes">
 	            	<attribute name="string">Picking Location</attribute>
+	            	<attribute name="attrs">{'readonly':[('state', 'in', ['approved','Approved'])]}</attribute>
 	            </xpath>                        
 	            
+	            <xpath expr="//sheet/group/group/field[@name='assignment_id']" position="attributes">
+	            	<attribute name="attrs">{'readonly':[('state', 'in', ['approved','Approved'])]}</attribute>
+	            </xpath>
 	            
+	            <xpath expr="//sheet/group/group/field[@name='picking_warehouse_id']" position="attributes">
+	            	<attribute name="attrs">{'readonly':[('state', 'in', ['approved','Approved'])]}</attribute>
+	            </xpath>
+	            
+	            <xpath expr="//sheet/group/group/field[@name='description']" position="attributes">
+	            	<attribute name="attrs">{'readonly':[('state', 'in', ['approved','Approved'])]}</attribute>
+	            </xpath>
                 
    				<xpath expr="//notebook/page/field[@name='amtiss_material_request_line_ids']"  position="attributes">
-	            	<attribute name="attrs">{'readonly':[('state', 'not in', ['requested','Requested'])]}</attribute>
+	            	<attribute name="attrs">{'readonly':[('state', 'in', ['approved','Approved'])]}</attribute>
 	            </xpath>                        
                                          
 	    		<xpath expr="//notebook/page/field/tree/field[@name='quantity']" position="attributes">
 	            	<attribute name="string">Request</attribute>
+	            	<attribute name="attrs">{'readonly':[('status_request_line', 'in', ['Processed'])]}</attribute>
 	            </xpath>
 	            
 	            <xpath expr="//notebook/page/field/tree/field[@name='standard_price']" position="attributes">
@@ -25,7 +37,7 @@
 	            </xpath>
 
 	            <xpath expr="//notebook/page/field/tree/field[@name='actual_price']" position="replace">
-	            	<field name="picking_location_id" string="Picking Location"/>
+	            	<field name="picking_location_id" string="Picking Location" attrs="{'readonly':[('status_request_line', 'in', ['Processed'])]}"/>
 	            </xpath>
 	            
 	            <xpath expr="//notebook/page/field/tree/field[@name='stock_on_picking_location_id']" position="attributes">
@@ -34,14 +46,24 @@
 	            
 	            <xpath expr="//notebook/page/field/tree/field[@name='status']" position="attributes">
 	            	<attribute name="string">Action</attribute>
+	            	<attribute name="attrs">{'readonly':[('status_request_line', 'in', ['Processed'])]}</attribute>
+	            </xpath>
+	            
+	            <xpath expr="//notebook/page/field/tree/field[@name='description']" position="attributes">	           	
+	            	<attribute name="attrs">{'readonly':[('status_request_line', 'in', ['Processed'])]}</attribute>
+	            </xpath>
+	            
+	            <xpath expr="//notebook/page/field/tree/field[@name='name']" position="attributes">	           	
+	            	<attribute name="attrs">{'readonly':[('status_request_line', 'in', ['Processed'])]}</attribute>
 	            </xpath>
 	            
 	            <xpath expr="//notebook/page/field/tree/field[@name='source_picking_location_id']" position="attributes">
 	            	<attribute name="string">Transfer from</attribute>
+	            	<attribute name="attrs">{ 'invisible': [('status','not in',('Transfer'))], 'required': [('status','in',('Transfer'))], 'readonly':[('status_request_line', 'in', ['Processed'])] }</attribute>
 	            </xpath>
 	            
 	            <xpath expr="//notebook/page/field/tree/field[@name='source_picking_location_id']" position="after">
-	            	<field name="status_request_line" string="Status"/>
+	            	<field name="status_request_line" string="Status" attrs="{'readonly':[('status_request_line', 'in', ['Processed'])]}"/>
 	            </xpath>
 	            
 	            <xpath expr="//header/button[@name='button_process']" position="after">
